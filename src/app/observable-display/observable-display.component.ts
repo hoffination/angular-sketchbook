@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { combineLatest } from 'rxjs/observable/combineLatest';
 
 import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/filter';
 
 import { ModalExampleComponent } from '../modal-example/modal-example.component';
 
@@ -21,11 +22,11 @@ export class ObservableDisplayComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.data
+    combineLatest(this.data, this.modal.getChangeStream())
+      .filter(([data, model]) => data === model)
       .takeUntil(this.unsubscribe)
-      .delay(0) // Best solution?
       .subscribe(number => {
-        this.modal.open();
-      })
+        this.modal.open()
+      });
   }
 }
