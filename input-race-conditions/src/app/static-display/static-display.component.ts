@@ -14,6 +14,6 @@ export class StaticDisplayComponent {
   constructor() { }
 
   openModal() {
-    this.modal.open();
+    setTimeout(() => this.modal.open(), 0);
   }
 }
