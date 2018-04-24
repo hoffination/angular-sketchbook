@@ -1,6 +1,6 @@
 export class Service {
+  static x = 3;
   static simpleFunc() {
     return false;
   }
-  static x = 3;
 }

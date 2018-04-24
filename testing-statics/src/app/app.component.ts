@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Service } from './statics/service';
+
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
   selector: 'app-root',
@@ -16,20 +19,20 @@ export class AppComponent {
   }
 
   subscribeTest() {
-    let unsubscribe = new Subject();
+    const unsubscribe = new Subject();
 
-    let mySubject = new BehaviorSubject('A');
+    const mySubject = new BehaviorSubject('A');
 
-    let subscription = mySubject
+    const subscription = mySubject
       .takeUntil(unsubscribe)
       .subscribe(console.log);
 
     unsubscribe.complete();
-    
+
     mySubject.next('B');
 
     unsubscribe.subscribe(console.log);
-    
+
     unsubscribe.next(true);
     console.log(subscription.closed);
   }
